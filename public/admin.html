@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetExpress - Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <h2>PetExpress Admin</h2>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-section="dashboard">Dashboard</a></li>
+                    <li><a href="#" class="nav-link" data-section="categorias">Categorías</a></li>
+                    <li><a href="#" class="nav-link" data-section="productos">Productos</a></li>
+                    <li><a href="#" class="nav-link" data-section="clientes">Clientes</a></li>
+                    <li><a href="#" class="nav-link" data-section="mascotas">Mascotas</a></li>
+                    <li><a href="#" class="nav-link" data-section="pedidos">Pedidos</a></li>
+                    <li><a href="#" class="nav-link" data-section="usuarios">Usuarios</a></li>
+                    <li><a href="#" id="logoutBtn">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div id="dashboard" class="crud-section">
+                <h1>Dashboard de Administración</h1>
+                <p>Bienvenido al panel de administración de PetExpress Tuxtla</p>
+            </div>
+
+            <!-- Sección de Categorías -->
+            <div id="categorias" class="crud-section" style="display: none;">
+                <div class="crud-header">
+                    <h2>Gestión de Categorías</h2>
+                    <button class="btn btn-primary" id="addCategoriaBtn">Agregar Categoría</button>
+                </div>
+                <div class="table-container">
+                    <table id="categoriasTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal para Categorías -->
+            <div id="categoriaModal" class="form-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="categoriaModalTitle">Agregar Categoría</h3>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <form id="categoriaForm">
+                        <input type="hidden" id="categoriaId">
+                        <div class="form-group">
+                            <label for="categoriaNombre">Nombre:</label>
+                            <input type="text" id="categoriaNombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoriaDescripcion">Descripción:</label>
+                            <textarea id="categoriaDescripcion" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sección de Productos -->
+        <div id="productos" class="crud-section" style="display: none;">
+            <div class="crud-header">
+                <h2>Gestión de Productos</h2>
+                <button class="btn btn-primary" id="addProductoBtn">Agregar Producto</button>
+            </div>
+            <div class="table-container">
+                <table id="productosTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Categoría</th>
+                            <th>Certificado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal para Productos -->
+        <div id="productoModal" class="form-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="productoModalTitle">Agregar Producto</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <form id="productoForm">
+                    <input type="hidden" id="productoId">
+                    <div class="form-group">
+                        <label for="productoNombre">Nombre:</label>
+                        <input type="text" id="productoNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productoDescripcion">Descripción:</label>
+                        <textarea id="productoDescripcion" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="productoPrecio">Precio:</label>
+                        <input type="number" id="productoPrecio" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productoStock">Stock:</label>
+                        <input type="number" id="productoStock" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="productoCategoria">Categoría:</label>
+                        <select id="productoCategoria" required>
+                            <option value="">Seleccionar categoría</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productoImagen">URL de Imagen:</label>
+                        <input type="text" id="productoImagen">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="productoCertificado" checked>
+                            Certificado de Calidad
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sección de Clientes -->
+        <div id="clientes" class="crud-section" style="display: none;">
+            <div class="crud-header">
+                <h2>Gestión de Clientes</h2>
+                <button class="btn btn-primary" id="addClienteBtn">Agregar Cliente</button>
+            </div>
+            <div class="table-container">
+                <table id="clientesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Ciudad</th>
+                            <th>Fecha Registro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal para Clientes -->
+        <div id="clienteModal" class="form-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="clienteModalTitle">Agregar Cliente</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <form id="clienteForm">
+                    <input type="hidden" id="clienteId">
+                    <div class="form-group">
+                        <label for="clienteNombre">Nombre:</label>
+                        <input type="text" id="clienteNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteApellido">Apellido:</label>
+                        <input type="text" id="clienteApellido">
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteEmail">Email:</label>
+                        <input type="email" id="clienteEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteTelefono">Teléfono:</label>
+                        <input type="text" id="clienteTelefono">
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteDireccion">Dirección:</label>
+                        <textarea id="clienteDireccion" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteCiudad">Ciudad:</label>
+                        <input type="text" id="clienteCiudad">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sección de Mascotas -->
+        <div id="mascotas" class="crud-section" style="display: none;">
+            <div class="crud-header">
+                <h2>Gestión de Mascotas</h2>
+                <button class="btn btn-primary" id="addMascotaBtn">Agregar Mascota</button>
+            </div>
+            <div class="table-container">
+                <table id="mascotasTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Raza</th>
+                            <th>Edad</th>
+                            <th>Dueño</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal para Mascotas -->
+        <div id="mascotaModal" class="form-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="mascotaModalTitle">Agregar Mascota</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <form id="mascotaForm">
+                    <input type="hidden" id="mascotaId">
+                    <div class="form-group">
+                        <label for="mascotaNombre">Nombre:</label>
+                        <input type="text" id="mascotaNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mascotaTipo">Tipo:</label>
+                        <select id="mascotaTipo" required>
+                            <option value="">Seleccionar tipo</option>
+                            <option value="Perro">Perro</option>
+                            <option value="Gato">Gato</option>
+                            <option value="Ave">Ave</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mascotaRaza">Raza:</label>
+                        <input type="text" id="mascotaRaza">
+                    </div>
+                    <div class="form-group">
+                        <label for="mascotaEdad">Edad (años):</label>
+                        <input type="number" id="mascotaEdad" min="0" max="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="mascotaCliente">Dueño:</label>
+                        <select id="mascotaCliente" required>
+                            <option value="">Seleccionar cliente</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sección de Pedidos -->
+        <div id="pedidos" class="crud-section" style="display: none;">
+            <div class="crud-header">
+                <h2>Gestión de Pedidos</h2>
+                <button class="btn btn-primary" id="addPedidoBtn">Agregar Pedido</button>
+            </div>
+            <div class="table-container">
+                <table id="pedidosTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Método Pago</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal para Pedidos -->
+        <div id="pedidoModal" class="form-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="pedidoModalTitle">Agregar Pedido</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <form id="pedidoForm">
+                    <input type="hidden" id="pedidoId">
+                    <div class="form-group">
+                        <label for="pedidoCliente">Cliente:</label>
+                        <select id="pedidoCliente" required>
+                            <option value="">Seleccionar cliente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pedidoEstado">Estado:</label>
+                        <select id="pedidoEstado" required>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Pagado">Pagado</option>
+                            <option value="Enviado">Enviado</option>
+                            <option value="Entregado">Entregado</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pedidoTotal">Total:</label>
+                        <input type="number" id="pedidoTotal" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pedidoMetodoPago">Método de Pago:</label>
+                        <select id="pedidoMetodoPago" required>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Transferencia">Transferencia</option>
+                            <option value="Paypal">Paypal</option>
+                            <option value="Efectivo">Efectivo</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sección de Usuarios -->
+        <div id="usuarios" class="crud-section" style="display: none;">
+            <div class="crud-header">
+                <h2>Gestión de Usuarios</h2>
+                <button class="btn btn-primary" id="addUsuarioBtn">Agregar Usuario</button>
+            </div>
+            <div class="table-container">
+                <table id="usuariosTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Cliente Asociado</th>
+                            <th>Activo</th>
+                            <th>Fecha Creación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal para Usuarios -->
+        <div id="usuarioModal" class="form-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="usuarioModalTitle">Agregar Usuario</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <form id="usuarioForm">
+                    <input type="hidden" id="usuarioId">
+                    <div class="form-group">
+                        <label for="usuarioEmail">Email:</label>
+                        <input type="email" id="usuarioEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuarioPassword">Contraseña:</label>
+                        <input type="password" id="usuarioPassword">
+                        <small>Dejar en blanco para no cambiar la contraseña (solo en edición)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuarioRol">Rol:</label>
+                        <select id="usuarioRol" required>
+                            <option value="cliente">Cliente</option>
+                            <option value="empleado">Empleado</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuarioCliente">Cliente Asociado:</label>
+                        <select id="usuarioCliente">
+                            <option value="">Sin cliente asociado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="usuarioActivo" checked>
+                            Usuario Activo
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
